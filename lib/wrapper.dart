@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:voting_app/ui/screens/auth/login_screen.dart';
 import 'package:voting_app/ui/screens/home_screen.dart';
-
+import 'package:voting_app/ui/screens/onboarding_screen.dart';
 
 import 'blocs/bloc/auth_bloc.dart';
 
@@ -17,7 +16,7 @@ class Wrapper extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ),
           );
         }
@@ -34,12 +33,12 @@ class Wrapper extends StatelessWidget {
       builder: (BuildContext context, AuthState state) {
         print(state);
         if (state is AuthLoading) {
-          return CircularProgressIndicator.adaptive();
+          return const CircularProgressIndicator.adaptive();
         }
         if (state is Unauthenticated) {
-          return LoginScreen();
+          return const OnboardingScreen();
         }
-        return Scaffold(body: Container(color: Colors.red));
+        return Scaffold(body: Container());
       },
     );
   }

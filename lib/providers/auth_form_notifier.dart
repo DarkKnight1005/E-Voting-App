@@ -10,4 +10,8 @@ void changeFormView(){
 _isLoginForm = !_isLoginForm;
 notifyListeners();
 }
+
+set isLoginForm(bool newValue) {
+  _isLoginForm = newValue;
+}
 }

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:voting_app/constants/color_constants.dart';
+import 'package:voting_app/providers/auth_form_notifier.dart';
+import 'package:voting_app/providers/pasword_visibility_notifier.dart';
+import 'package:voting_app/ui/screens/auth/auth_screen.dart';
 import 'package:voting_app/ui/screens/home_screen.dart';
 import 'package:voting_app/ui/screens/auth/signup_screen.dart';
+import 'package:voting_app/ui/widgets/buttons/primary_button.dart';
+import 'package:voting_app/utils/validators/validators.dart';
 import '../../../blocs/bloc/auth_bloc.dart';
 import '../../../constants/spacing_consts.dart';
 import 'login_screen.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+import 'package:provider/provider.dart';
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -40,15 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
           listener: (context, AuthState state) {
-        if (state is Authenticated) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
+    
         }
-      }, builder: (context, AuthState state) {
+    , builder: (context, AuthState state) {
         if (state is AuthLoading) {
           return Center(
             child: CircularProgressIndicator.adaptive(),
@@ -56,16 +62,24 @@ class _LoginScreenState extends State<LoginScreen> {
         } return 
           SingleChildScrollView(
             padding: EdgeInsets.only(
-              top: SpacingConsts.kDefaultPadding * 5,
-              left: SpacingConsts.kDefaultPadding,
-              right: SpacingConsts.kDefaultPadding,
-              bottom: SpacingConsts.kDefaultPadding,
+               top: MediaQuery.of(context).size.height * 0.1,
+          left: SpacingConsts.kDefaultPadding + 5,
+          right: SpacingConsts.kDefaultPadding + 5,
+          bottom: SpacingConsts.kDefaultPadding,
             ),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                     Center(
+                child: SvgPicture.asset('assets/images/login.svg',
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.3),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
                   Text(
                     'Login to your account',
                     style: TextStyle(
@@ -74,14 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   TextFormField(
                     controller: emailController,
                     validator: (val) {
                       if (val != null && val.isEmpty) {
                         return 'Please enter a valid email';
-                      }
+                      }else if (!(val!.isValidEmail())) {
+                    return 'Please enter a valid email';
+                  }
                       return null;
                     },
                     decoration: InputDecoration(
@@ -91,39 +107,40 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
+                  ChangeNotifierProvider<PasswordVisibilityNotifier>(
+                    create:(_) => PasswordVisibilityNotifier(),
+                    child: Consumer<PasswordVisibilityNotifier>(
+                      builder: (context, PasswordVisibilityNotifier notifier, _) {
+                    return TextFormField(
+                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: passwordController,
-                    validator: (val) {
-                      if (val != null && val.isEmpty) {
-                        return 'Please enter a valid password';
+                    obscureText: notifier.isVisible,
+                        validator: (val) {
+                          if (val != null && val.isEmpty) {
+                            return 'Please enter a valid password';
+                          }  if (!(val!.isValidPassword())) {
+                        return 'Password should be at least 6 characters long';
                       }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.password_outlined),
-                        hintText: 'Password'),
+                          return null;
+                        },
+                        decoration: InputDecoration(  suffixIcon: GestureDetector(
+                        onTap: (){notifier.toggleVisibility();},
+                        child: notifier.isVisible ?  Icon(Icons.visibility) : Icon(Icons.visibility_off)),
+                            prefixIcon: Icon(Icons.password_outlined),
+                            hintText: 'Password'),
+                      );}
+                    ),
                   ),
                   SizedBox(
-                    height: 100,
+                    height: 60,
                   ),
                   Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: SpacingConsts.kDefaultPadding * 5,
-                            vertical: SpacingConsts.kDefaultPadding - 3,
-                          ),
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          )),
+                    child: PrimaryButton(btnText: 'Login',
                       onPressed: () {
                         _signIn();
                         debugPrint(context.read<AuthBloc>().state.toString());
                       },
-                      child: Text('Login'),
+                     
                     ),
                   ),
                   SizedBox(
@@ -139,13 +156,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
+                          context.read<AuthFormNotifier>().isLoginForm = false;
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => SignupForm()));
+                                  builder: (context) => AuthScreen()));
+                      
                         },
                         child: Text(
                           'Register',
                           style: TextStyle(
+                            color:ColorConstants.primaryCOlor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
@@ -159,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         
-      }),
+    }
     );
   }
 }

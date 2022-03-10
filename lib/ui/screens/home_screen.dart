@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-       
+       title: Text('Home'),
         actions: [
           IconButton(
               onPressed: () {
@@ -37,8 +37,7 @@ class HomeScreen extends StatelessWidget {
           }
         },
         child: Center(
-          child: Text(
-            user!.email!,
+          child: Text('Hello ${user!.email!}',
           ),
         ),
       ),

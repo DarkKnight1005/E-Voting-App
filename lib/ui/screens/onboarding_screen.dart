@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:voting_app/constants/color_constants.dart';
 import 'package:voting_app/constants/spacing_consts.dart';
 import 'package:voting_app/ui/screens/auth/auth_screen.dart';
 import 'package:voting_app/ui/screens/auth/signup_screen.dart';
+import 'package:voting_app/ui/widgets/buttons/primary_button.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -16,52 +18,57 @@ class OnboardingScreen extends StatelessWidget {
           Flexible(
             flex: 3,
             child: Padding(
-              padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.15,),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.15,
+              ),
               child: Column(
                 children: [
-                SvgPicture.asset('assets/images/onboard/svg', width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height * 0.5),
-                  const Padding(
-                    padding: EdgeInsets.only(
+                  SvgPicture.asset('assets/images/onboard.svg',
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      height: MediaQuery.of(context).size.height * 0.3),
+                  Padding(
+                    padding: const EdgeInsets.only(
                       top: SpacingConsts.kDefaultPadding + 10,
                     ),
                     child: Text(
                       'E-Voting App',
-                      style:  TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: SpacingConsts.kDefaultPadding + 20,
+                    left: SpacingConsts.kDefaultPadding,
+                    right: SpacingConsts.kDefaultPadding,
                     ),
-                    child: Text('Lorem Imspum sjjdjfjjf', style:TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.grey[600],)),
+                    child: Text(
+                     'Hold secure elections without printing costs and complicated organization. Voting will be honest and anonymous thanks to blockchain technology.'
+                   ,   style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                            fontSize: 16,
+                          ),textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-         
-          Flexible(flex:1,
+          Flexible(
+            flex: 1,
             child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: SpacingConsts.kDefaultPadding * 5,
-                      vertical: SpacingConsts.kDefaultPadding - 3,
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    )),
+              child: PrimaryButton(
+                btnText: 'Get Started',
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const AuthScreen()));
+                    MaterialPageRoute(
+                      builder: (context) => AuthScreen(),
+                    ),
+                  );
                 },
-                child: const Text('Get Started'),
+                btnColor: ColorConstants.accentCOlor,
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: Colors.black, fontSize: 20,),
               ),
             ),
           ),
