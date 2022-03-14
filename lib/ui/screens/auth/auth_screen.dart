@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:voting_app/providers/auth_form_notifier.dart';
 import 'package:provider/provider.dart';
-import 'package:voting_app/ui/screens/auth/login_screen.dart';
-import 'package:voting_app/ui/screens/auth/signup_screen.dart';
+import 'package:voting_app/ui/screens/auth/login_form.dart';
+import 'package:voting_app/ui/screens/auth/signup_form.dart';
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);
 

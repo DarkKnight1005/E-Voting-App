@@ -8,7 +8,7 @@ class PrimaryButton extends StatelessWidget {
     Key? key,
     this.btnColor = ColorConstants.primaryCOlor,
     required this.btnText,
-    this.borderRadius = 10.0,
+    this.borderRadius = 15.0,
     required this.onPressed,
     this.textStyle,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: SpacingConsts.kDefaultPadding * 5,
-          vertical: SpacingConsts.kDefaultPadding - 3,
+          vertical: SpacingConsts.kDefaultPadding,
         ),
       
       ),

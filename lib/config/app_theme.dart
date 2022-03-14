@@ -8,6 +8,13 @@ class AppTheme {
   static ThemeData get theme {
     //1
     return ThemeData(
+        
+        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.light(
+          primary:ColorConstants.primaryCOlor,
+          
+        )
+      ,
       appBarTheme: const AppBarTheme(
         color: ColorConstants.primaryCOlor,
         elevation: 0.0,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:voting_app/blocs/bloc/auth_bloc.dart';
+import 'package:voting_app/cloud/repositories/auth_repository.dart';
 import 'package:voting_app/ui/screens/onboarding_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser!;
+   
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -37,7 +39,7 @@ class HomeScreen extends StatelessWidget {
           }
         },
         child: Center(
-          child: Text('Hello ${user!.email!}',
+          child: Text('Hello ${user.email}'
           ),
         ),
       ),

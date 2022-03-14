@@ -4,5 +4,5 @@ class ColorConstants {
   ColorConstants._();
 
   static const Color primaryCOlor = Color(0xFF295BE0);
-  static const Color accentCOlor = Color(0xFFFFC157);
+  static const Color accentCOlor = Colors.amber;
 }
