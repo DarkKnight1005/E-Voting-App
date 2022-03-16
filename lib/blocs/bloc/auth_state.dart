@@ -9,6 +9,8 @@ abstract class AuthState extends Equatable {
 class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
+class VerificationEmailReceived extends AuthState {}
+
 class Authenticated extends AuthState {}
 
 class Unauthenticated extends AuthState {}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:voting_app/constants/color_constants.dart';
 import 'package:voting_app/ui/screens/auth/auth_screen.dart';
+import 'package:voting_app/ui/screens/auth/verify_email_screen.dart';
 import 'package:voting_app/ui/widgets/buttons/primary_button.dart';
 import 'package:voting_app/ui/widgets/textfields/custom_textfield.dart';
 import 'package:voting_app/utils/validators/validators.dart';
@@ -57,9 +58,12 @@ class _SignupFormState extends State<SignupForm> {
       if (state is Authenticated) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => VerifyEmailScreen(),
             ),
             (route) => false);
+      } else if (state is AuthError) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.error), duration: Duration(seconds: 2),), );
       }
     }, builder: (context, AuthState state) {
       if (state is AuthLoading) {

@@ -55,11 +55,16 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
         listener: (context, AuthState state) {
+          if(state is Authenticated){
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
           (route) => false);
+          }else if (state is AuthError) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.error), duration: Duration(seconds: 2),), );
+      }
     }, builder: (context, AuthState state) {
       if (state is AuthLoading) {
         return const Center(

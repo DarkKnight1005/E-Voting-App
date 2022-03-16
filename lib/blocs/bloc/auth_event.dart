@@ -15,6 +15,9 @@ class SignInRequestedEvent extends AuthEvent {
   @override
   List<Object> get props => [email, password];
 }
+class VerificationEmailSent extends AuthEvent {
+  
+}
 
 class SignUpRequestedEvent extends AuthEvent {
   final String email;

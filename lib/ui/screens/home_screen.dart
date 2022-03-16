@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:voting_app/blocs/bloc/auth_bloc.dart';
-import 'package:voting_app/cloud/repositories/auth_repository.dart';
 import 'package:voting_app/ui/screens/onboarding_screen.dart';
 
 class HomeScreen extends StatelessWidget {
