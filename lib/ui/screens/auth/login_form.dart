@@ -68,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
     }, builder: (context, AuthState state) {
       if (state is AuthLoading) {
         return const Center(
-          child: CircularProgressIndicator.adaptive(),
+          child: CircularProgressIndicator(),
         );
       }
       return SingleChildScrollView(

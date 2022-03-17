@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:voting_app/blocs/bloc/auth_bloc.dart';
+import 'package:voting_app/constants/color_constants.dart';
+import 'package:voting_app/ui/screens/auth/auth_screen.dart';
 import 'package:voting_app/ui/screens/home_screen.dart';
 import 'package:voting_app/ui/widgets/buttons/primary_button.dart';
 
@@ -68,16 +72,40 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ? HomeScreen()
         : Scaffold(
             appBar: AppBar(
-              title: Text('Verify Email'),
+              title: Text('Verify Email Address'),
             ),
             body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'An email has been sent to your email',
+                  'An email has been sent to your email address. Please check.',
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 PrimaryButton(
-                    btnText: 'Resend email',
-                    onPressed: canResendEmail ? sendVerificationEmail : () {}),
+                  btnText: 'Resend email',
+                  onPressed: canResendEmail ? sendVerificationEmail : () {},
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: PrimaryButton(
+                      btnText: 'Cancel',
+                      btnColor: Colors.white,
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: ColorConstants.primaryCOlor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> AuthScreen()));
+                 print(       context.read<AuthBloc>().state);
+                      }),
+                ),
               ],
             ),
           );

@@ -33,7 +33,7 @@ class Wrapper extends StatelessWidget {
       builder: (BuildContext context, AuthState state) {
         print(state);
         if (state is AuthLoading) {
-          return const CircularProgressIndicator.adaptive();
+          return const CircularProgressIndicator();
         }
         if (state is Unauthenticated) {
           return const OnboardingScreen();

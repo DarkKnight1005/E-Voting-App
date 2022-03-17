@@ -29,10 +29,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Authenticated());
     } on FirebaseAuthException catch (e) {
       emit(AuthError(e.message!));
-      emit(Unauthenticated());
+      emit(AuthInitial());
     } catch (e) {
       emit(AuthError(e.toString()));
-      emit(Unauthenticated());
+      emit(AuthInitial());
     }
   }
 
@@ -46,10 +46,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Authenticated());
     } on FirebaseAuthException catch (e) {
       emit(AuthError(e.message!));
-      emit(Unauthenticated());
+      emit(AuthInitial());
     } catch (e) {
       emit(AuthError(e.toString()));
-      emit(Unauthenticated());
+      emit(AuthInitial());
     }
   }
 

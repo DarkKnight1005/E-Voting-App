@@ -24,6 +24,12 @@ class PrimaryButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: btnColor,
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: btnColor == Colors.white
+                ? ColorConstants.primaryCOlor
+                : Colors.transparent,
+            width: 2,
+          ),
           borderRadius: BorderRadius.circular(
             borderRadius,
           ),
@@ -32,13 +38,16 @@ class PrimaryButton extends StatelessWidget {
           horizontal: SpacingConsts.kDefaultPadding * 5,
           vertical: SpacingConsts.kDefaultPadding,
         ),
-      
       ),
-      onPressed:  onPressed,
-      child: Text(btnText, style: textStyle ?? const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),),
+      onPressed: onPressed,
+      child: Text(
+        btnText,
+        style: textStyle ??
+            const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+      ),
     );
   }
 }
